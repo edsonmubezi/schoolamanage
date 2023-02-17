@@ -54,20 +54,20 @@ class BasicMethodsCtrl
 
 
        if ($marks>= 70 && $marks <= 100) {
-         $grade = 'A';
+         $gradetype = 'A';
        } elseif ($marks>= 60 && $marks <= 69) {
-         $grade = 'B+';
+         $gradetype = 'B+';
        }elseif ($marks>= 50 && $marks <= 59) {
-         $grade = 'B';
+         $gradetype = 'B';
        }elseif ($marks>= 40 && $marks <= 49) {
-         $grade = 'C';
+         $gradetype = 'C';
        }elseif ($marks>= 35 && $marks <= 39) {
-         $grade = 'D';
+         $gradetype = 'D';
        }elseif ($marks>= 0 && $marks <= 34) {
-         $grade = 'E';
+         $gradetype = 'E';
        }
 
-        return $postion;
+        return $gradetype;
        
     }
 

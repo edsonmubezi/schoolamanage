@@ -80,12 +80,19 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
                         <div class="col-sm-4">
                       <label for="inputText" class="form-label"><?php echo ($key+1) ?>- <?php echo $value['subjectname'] ?> </label>
                        </div>
-                        <div class="col-sm-5">
+
+                        <div class="col-sm-3">
                           <?php 
                           echo $result['marks'];
                           ?>
-                          <!-- <input type="number" min="0" class="form-control" required name="marks[]"> -->
                         </div>
+                        <div class="col-sm-3">
+                          <?php 
+                          $gradetype = BasicMethodsCtrl::GetGradeCtrl($result['marks']);
+                          echo $gradetype;
+                          ?>
+                        </div>
+
                       </div>
                         <?php endif ?>
                         
