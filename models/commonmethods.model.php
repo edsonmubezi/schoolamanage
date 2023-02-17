@@ -82,6 +82,9 @@ class StudentResultsMdl
 	}
 
 
+
+
+
 static public function AddSummaryResultsMdl($table,$data)
 	{
 		$stmt = Connection::connect()->prepare("INSERT INTO $table(studentid,numberofsubjects,totalmarks,avaerage) VALUES (:studentid,:numberofsubjects,:totalmarks,:avaerage)");
