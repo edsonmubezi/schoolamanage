@@ -8,20 +8,23 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
  $value = $_SESSION["id"];
  $results = StudentResultsCtrl::ShowStudentResultsCtrl($item,$value); 
 
- if ($results["avaerage"] >= 75 ) {
-  $grade = 'A';
-  } else if ($results["avaerage"] >= 60 && $results["avaerage"] < 75)  {
-  $grade = 'B';
-  }else if ($results["avaerage"] >= 45 && $results["avaerage"] < 60)  {
-  $grade = 'C';
-  }else if ($results["avaerage"] >= 30 && $results["avaerage"] < 45)  {
-  $grade = 'D';
-  }else if ($results["avaerage"] >= 0 && $results["avaerage"] < 30)  {
-  $grade = 'E';
-  }
-  if ($results["avaerage"] >= 45 ) {
+ // if ($results["avaerage"] >= 75 ) {
+ //  $grade = 'A';
+ //  } else if ($results["avaerage"] >= 60 && $results["avaerage"] < 75)  {
+ //  $grade = 'B';
+ //  }else if ($results["avaerage"] >= 45 && $results["avaerage"] < 60)  {
+ //  $grade = 'C';
+ //  }else if ($results["avaerage"] >= 30 && $results["avaerage"] < 45)  {
+ //  $grade = 'D';
+ //  }else if ($results["avaerage"] >= 0 && $results["avaerage"] < 30)  {
+ //  $grade = 'E';
+ //  }
+
+   $grade = BasicMethodsCtrl::GetClassCtrl($results["avaerage"]);
+
+ if ($results["avaerage"] >= 2.0 ) {
    $status = '<span class="badge bg-success">PASS</span>';
-  }else if ($results["avaerage"] >= 0 && $results["avaerage"] < 45)  {
+  }else if ($results["avaerage"] >= 0 && $results["avaerage"] < 2.0)  {
   $status = '<span class="badge bg-danger">FAIL</span>';
   }
 
@@ -61,23 +64,31 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
 
                       	
 
-                      	$itemt = $value["id"];
+                    $itemt = $value["id"];
                 		$valuet =  $_SESSION["id"];
                 		$result = ManageSchoolFeesInfoCtrl::ShowStudentResultsInfoCtrl($itemt,$valuet);
 
+                    $itemx = null;
+                    $valuex = null;
+                    $semister = ManageSemister::CurrentSemisterCtl($itemx,$valuex);
+
                       	?>
-                        <input type="hidden" name="subjectid[]" value="<?php echo $value['id']; ?>">
+                         <?php if ($semister['id'] ==$value['semisterid'] ): ?>
+
+                          <input type="hidden" name="subjectid[]" value="<?php echo $value['id']; ?>">
                         <div class="row">
                         <div class="col-sm-4">
                       <label for="inputText" class="form-label"><?php echo ($key+1) ?>- <?php echo $value['subjectname'] ?> </label>
                        </div>
                         <div class="col-sm-5">
-                        	<?php 
-                        	echo $result['marks'];
-                        	?>
+                          <?php 
+                          echo $result['marks'];
+                          ?>
                           <!-- <input type="number" min="0" class="form-control" required name="marks[]"> -->
                         </div>
                       </div>
+                        <?php endif ?>
+                        
                 
                       <br>
                       <?php endforeach ?>
