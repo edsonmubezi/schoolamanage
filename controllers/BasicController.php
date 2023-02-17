@@ -31,20 +31,20 @@ class BasicMethodsCtrl
 
 
        if ($marks>= 70 && $marks <= 100) {
-         $grade = 5;
+         $credit = 5;
        } elseif ($marks>= 60 && $marks <= 69) {
-         $grade = 4;
+         $credit = 4;
        }elseif ($marks>= 50 && $marks <= 59) {
-         $grade = 3;
+         $credit = 3;
        }elseif ($marks>= 40 && $marks <= 49) {
-         $grade = 2;
+         $credit = 2;
        }elseif ($marks>= 35 && $marks <= 39) {
-         $grade = 1;
+         $credit = 1;
        }elseif ($marks>= 0 && $marks <= 34) {
-         $grade = 0;
+         $credit = 0;
        }
 
-        return $grade;
+        return $credit;
        
     }
 
@@ -128,17 +128,34 @@ class StudentResultsCtrl
             $value = null;
             $request = ManageUserCtrl::ShowAllSubjectsCtrl($item,$value);
 
+            $itemx = null;
+            $valuex = null;
+            $semister = ManageSemister::CurrentSemisterCtl($itemx,$valuex);
+
+
+           $item = null;
+           $value = $semister['id'];
+           $sumof = ManageUserCtrl::SumOFCreditCtrl($item,$value);
+         
             for ($i=0; $i < count($_POST["subjectid"]); $i++) { 
+
+        
 
             $item = "id";
             $value = $_POST["subjectid"][$i];
             $request = ManageUserCtrl::ShowAllSubjectsCtrl($item,$value);
 
+    
+
             $credit = BasicMethodsCtrl::GetGPACtrl($_POST["marks"][$i]);
 
             $totalone += $credit*$request['credit'];
-            $gpa = $totalone/45;
-             $numberofsubjects = count($_POST["marks"]);
+
+          
+
+            $gpa = $totalone/$sumof['totalcredit'];
+
+            $numberofsubjects = count($_POST["marks"]);
 
             $table = "studentresults";
                 $data = array('studentid' =>$_POST["slctstudentid"],
@@ -149,6 +166,7 @@ class StudentResultsCtrl
             
             }
 
+
             $gpaamount = number_format($gpa, 3);
 
             $table = "resultssummary";
@@ -158,7 +176,7 @@ class StudentResultsCtrl
                               'totalmarks' =>$totalone);
             $answer = StudentResultsMdl::AddSummaryResultsMdl($table,$data);
 
-
+           
                 if ($answer == 'ok') {
 
                 $table = "useraccounts";
@@ -179,7 +197,8 @@ class StudentResultsCtrl
                             }
                         });
                         </script>';
-                }
+            
+            }
         
         }
     }

@@ -192,7 +192,11 @@ static public function ShowAllSubjectsCtrl($item, $value){
 		$answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
 		return $answer;
 	}
-
+static public function SumOFCreditCtrl($item, $value){
+		$table = "subjects";
+		$answer = ManageUserMdl::SumOFCreditMdl($table, $item, $value);
+		return $answer;
+	}
 
 
 

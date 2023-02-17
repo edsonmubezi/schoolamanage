@@ -76,6 +76,16 @@ static public function ShowStudentResultsInfoMdl($table, $item, $value){
 	}
 
 
+static public function SumOFCreditMdl($table, $item, $value){
+	
+	$stmt = Connection::connect()->prepare("SELECT SUM(credit) AS totalcredit FROM $table WHERE semisterid = 1 ");
+		$stmt -> execute();
+		return $stmt -> fetch();	
+		$stmt -> close();
+		$stmt = null;
+	}
+
+
 
 	
 }

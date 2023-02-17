@@ -99,8 +99,7 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
                 
                       <br>
                       <?php endforeach ?>
-                      <h5>Total Marks:<?php echo $results['totalmarks']; ?></h5>
-                      <h5>Average:<?php echo number_format($results['avaerage'],2); ?></h5>
+                      <h5>GPA:<?php echo number_format($results['avaerage'],2); ?></h5>
                       <h5>Grade: <?php echo $grade; ?></h5>
                       <h5>Status:<?php echo $status; ?></h5>
             </div>
