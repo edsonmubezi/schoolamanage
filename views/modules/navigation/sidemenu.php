@@ -1,9 +1,23 @@
  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+  <aside id="sidebar" class="sidebar" style="background-color: #FFB84C;">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <?php if ($_SESSION["userole"] == "System-Admin"): ?>
+         <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#departs" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Department</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="departs" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="alldepartments">
+              <i class="bi bi-circle"></i><span>View Department</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li>
+
          <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Manage Users</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -12,6 +26,16 @@
           <li>
             <a href="manageusers">
               <i class="bi bi-circle"></i><span>All Users</span>
+            </a>
+          </li>
+           <li>
+            <a href="allparents">
+              <i class="bi bi-circle"></i><span>All Parents</span>
+            </a>
+          </li>
+           <li>
+            <a href="allstudents">
+              <i class="bi bi-circle"></i><span>All Students</span>
             </a>
           </li>
         </ul>
@@ -49,11 +73,7 @@
           </li>
         </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link " href="sendnotification">
-          <i class="bi bi-grid"></i>
-          <span>Send Comment</span>
-        </a>
+    
         <?php elseif ($_SESSION["userole"] == "Student"): ?>
              <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -111,11 +131,37 @@
           <i class="bi bi-grid"></i>
           <span>Notification</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="sendmessage">
+          <i class="bi bi-grid"></i>
+          <span>Send Message</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="adminviewmassage">
+          <i class="bi bi-grid"></i>
+          <span>View Message</span>
+        </a>
+      </li>
  
      
       <?php endif ?>
-     
+      <?php if ($_SESSION["userole"] != "HOD"): ?>
+         <li class="nav-item">
+        <a class="nav-link " href="sendnotification">
+          <i class="bi bi-grid"></i>
+          <span>View Notification</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+       <li class="nav-item">
+        <a class="nav-link " href="viewmassage">
+          <i class="bi bi-grid"></i>
+          <span>View Message</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <?php endif ?>
+    
     </ul>
 
   </aside><!-- End Sidebar-->

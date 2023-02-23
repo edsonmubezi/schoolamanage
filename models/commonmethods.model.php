@@ -87,11 +87,12 @@ class StudentResultsMdl
 
 static public function AddSummaryResultsMdl($table,$data)
 	{
-		$stmt = Connection::connect()->prepare("INSERT INTO $table(studentid,numberofsubjects,totalmarks,avaerage) VALUES (:studentid,:numberofsubjects,:totalmarks,:avaerage)");
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(studentid,numberofsubjects,totalmarks,avaerage,semisterid) VALUES (:studentid,:numberofsubjects,:totalmarks,:avaerage,:semisterid)");
 		$stmt -> bindParam(":studentid", $data["studentid"], PDO::PARAM_STR);
 		$stmt -> bindParam(":numberofsubjects", $data["numberofsubjects"], PDO::PARAM_STR);
 		$stmt -> bindParam(":totalmarks", $data["totalmarks"], PDO::PARAM_STR);
 		$stmt -> bindParam(":avaerage", $data["avaerage"], PDO::PARAM_STR);
+		$stmt -> bindParam(":semisterid", $data["semisterid"], PDO::PARAM_STR);
 		if ($stmt->execute()) {			
 			return 'ok';	
 		} else {		
@@ -128,10 +129,43 @@ class CommentsSectionMdl
 	
 	static public function SenCommentsSectionMdl($table,$data)
 	{
-		$stmt = Connection::connect()->prepare("INSERT INTO $table(content,senderid,receiverid) VALUES (:content,:senderid,:receiverid)");
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(content,senderid,receiverid,convoid) VALUES (:content,:senderid,:receiverid,:convoid)");
 		$stmt -> bindParam(":content", $data["content"], PDO::PARAM_STR);
 		$stmt -> bindParam(":senderid", $data["senderid"], PDO::PARAM_STR);
 		$stmt -> bindParam(":receiverid", $data["receiverid"], PDO::PARAM_STR);
+		$stmt -> bindParam(":convoid", $data["convoid"], PDO::PARAM_STR);
+		if ($stmt->execute()) {			
+			return 'ok';	
+		} else {		
+			return 'error'.var_dump($stmt->errorInfo());
+		}	
+		$stmt -> close();
+		$stmt = null;
+	}
+
+static public function ConvoCreateMdl($table,$data)
+	{
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(userid,userid1) VALUES (:userid,:userid1)");
+		$stmt -> bindParam(":userid", $data["userid"], PDO::PARAM_STR);
+		$stmt -> bindParam(":userid1", $data["userid1"], PDO::PARAM_STR);
+		if ($stmt->execute()) {			
+			return 'ok';	
+		} else {		
+			return 'error'.var_dump($stmt->errorInfo());
+		}	
+		$stmt -> close();
+		$stmt = null;
+	}
+
+
+
+	static public function SendNotificationMdl($table,$data)
+	{
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(content,senderid,receiverid,type) VALUES (:content,:senderid,:receiverid,:type)");
+		$stmt -> bindParam(":content", $data["content"], PDO::PARAM_STR);
+		$stmt -> bindParam(":senderid", $data["senderid"], PDO::PARAM_STR);
+		$stmt -> bindParam(":receiverid", $data["receiverid"], PDO::PARAM_STR);
+		$stmt -> bindParam(":type", $data["type"], PDO::PARAM_STR);
 		if ($stmt->execute()) {			
 			return 'ok';	
 		} else {		
@@ -151,6 +185,24 @@ class ManageSemisterMdl
 		$stmt = Connection::connect()->prepare("INSERT INTO $table(acyear,semistername) VALUES (:acyear,:semistername)");
 		$stmt -> bindParam(":acyear", $data["acyear"], PDO::PARAM_STR);
 		$stmt -> bindParam(":semistername", $data["semistername"], PDO::PARAM_STR);
+		if ($stmt->execute()) {			
+			return 'ok';	
+		} else {		
+			return 'error'.var_dump($stmt->errorInfo());
+		}	
+		$stmt -> close();
+		$stmt = null;
+	}
+}
+
+
+class DepartmetnMdl
+{
+	
+	static public function AddDepartmetnMdl($table,$data)
+	{
+		$stmt = Connection::connect()->prepare("INSERT INTO $table(department) VALUES (:department)");
+		$stmt -> bindParam(":department", $data["department"], PDO::PARAM_STR);
 		if ($stmt->execute()) {			
 			return 'ok';	
 		} else {		

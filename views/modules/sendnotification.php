@@ -1,11 +1,11 @@
 
 
     <div class="pagetitle">
-      <h1>Send Comments</h1>
+      <h1>View Notification</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="home">Home</a></li>
-          <li class="breadcrumb-item">Send Comments</li>
+          <li class="breadcrumb-item">View Notification</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -21,46 +21,53 @@
               
               <div class="row">
                 <div class="col-md-8">
-                   <h5 class="card-title">Send Comment</h5>
+                   <h5 class="card-title">View Notification</h5>
                 </div>
                 <?php
                 $itemt = null;
                 $valuet = null;
-                $result = ManageSchoolFeesInfoCtrl::ShowStudentResultsInfoCtrl($itemt,$valuet);
+                $result = ManageSchoolFeesInfoCtrl::ShowNotificationCtrl($itemt,$valuet);
 
                  ?>
 
                  <?php foreach ($result as $key => $value): ?>
 
-                 	<?php if ($value['senderid'] == $_SESSION["id"] ): ?>
-                 		<div class="row">
-                		<div class="col-md-4">ME:</div>
-                		<div class="col-md-8"><?php echo $value['content']; ?></div>
-                		</div>
-                 	<?php else: ?>
-                 		<div class="row">
-                		<div class="col-md-8"> <?php echo $value['content']; ?></div>
-                		<div class="col-md-4">ADMIN</div>
-                		</div>
-                 	<?php endif ?>
+                  <?php if ($_SESSION["userole"] == "Parent" && $value['type'] == 'Parents'): ?>
+                    <div class="row">
+                    <div class="col-md-12"> <h5>MESSAGE: <?php echo $value['content']; ?></h5></div>
+                    </div>
+                  <?php elseif ($_SESSION["userole"] == "Accountant" && $value['type'] == 'All Staff'): ?>
+                  <div class="row">
+                    <div class="col-md-12"> <h5>MESSAGE: <?php echo $value['content']; ?></h5></div>
+                    </div>
 
+                    <?php elseif ($_SESSION["userole"] == "HOD" && $value['type'] == 'All Staff'): ?>
+                  <div class="row">
+                    <div class="col-md-12"> <h5>MESSAGE: <?php echo $value['content']; ?></h5></div>
+                    </div>
+
+
+                    <?php elseif ($_SESSION["userole"] == "System-Admin" && $value['type'] == 'All Staff'): ?>
+                  <div class="row">
+                    <div class="col-md-12"> <h5>MESSAGE: <?php echo $value['content']; ?></h5></div>
+                    </div>
+
+                    <?php elseif ($_SESSION["userole"] == "Student" && $value['type'] == 'Students'): ?>
+                  <div class="row">
+                    <div class="col-md-12"> <h5>MESSAGE: <?php echo $value['content']; ?></h5></div>
+                    </div>
+                    
+                  <?php endif ?>
+
+                
+                 		
+                 	
                  <?php endforeach ?>
 
                 
                 
                 <br>
-                <form method="POST" >
-
-                	<div class="mb-3">
-					  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="sendcomment"></textarea>
-					</div>
-
-                      <div class="row mb-3">
-                        <div class="col-md-4"></div>
-                         <div class="col-md-4">
-                          <button type="submit" name="updatesalary" class=" btn btn-primary">Send Comment</button>
-                        </div>
-                      </div>
+                
 
                           <?php
             $useradd = new CommentsSectionCtrl();

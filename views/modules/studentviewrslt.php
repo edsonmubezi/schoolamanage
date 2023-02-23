@@ -3,10 +3,14 @@ $itemt = 'id';
 $valuet = $_SESSION["id"];
 $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet); 
 
+$itemx = null;
+$valuex = null;
+$semister = ManageSemister::CurrentSemisterCtl($itemx,$valuex);
 
- $item = "studentid";
- $value = $_SESSION["id"];
- $results = StudentResultsCtrl::ShowStudentResultsCtrl($item,$value); 
+
+ $item =  $_SESSION["id"];
+ $value = $semister['id'];
+ $results = StudentResultsCtrl::FindDuplicateCtrl($item,$value); 
 
  // if ($results["avaerage"] >= 75 ) {
  //  $grade = 'A';
@@ -29,6 +33,9 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
   }
 
 
+              
+
+
 ?>
 
 <div class="pagetitle">
@@ -48,7 +55,7 @@ $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet);
 
           <div class="card">
           	<div class="card-header">
-          		Student Results for: <?php echo $users["fullname"];?>
+          		Student Results for: <?php echo $users["fullname"];?> of <?php echo $semister["acyear"].'-'.$semister["semistername"]; ?>
           	</div>
           	<br>
             <div class="card-body">

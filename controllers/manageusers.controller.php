@@ -20,6 +20,7 @@ class ManageUserCtrl
 								'fullname' =>$_POST["fullname"],
 								'email' =>'admin@gmail.com',
 								'password' =>$encryptpass,
+								'departmentid' =>$_POST["departmentid"],
 								'studentid' =>0,
 								'userole' =>$_POST["userole"]);
 				$answer = ManageUserMdl::AddManagerialUserMdl($table,$data);
@@ -73,7 +74,7 @@ class ManageUserCtrl
 					 $_SESSION["username"] = $request["username"];
 					 $_SESSION["userole"] = $request["userole"];
 					 $_SESSION["studentid"] = $request["studentid"];
-					 $_SESSION["convoviewid"] = $request["convoviewid"];
+					 $_SESSION["conviewid"] = $request["convoviewid"];
 
 				$getip = BasicMethodsCtrl::GetIpAddress();
 				$hour = BasicMethodsCtrl::getime();
@@ -129,6 +130,7 @@ class ManageUserCtrl
 								'fullname' =>$_POST["fullname1"],
 								'email' =>'student@gmail.com',
 								'password' =>$encryptpass,
+								'departmentid' =>$_POST["departmentid"],
 								'studentid' =>0,
 								'userole' =>'Student');
 				$answer = ManageUserMdl::AddManagerialUserMdl($table,$data);
@@ -167,6 +169,7 @@ class ManageUserCtrl
 								'email' =>'parent@gmail.com',
 								'password' =>$encryptpass,
 								'studentid' =>$_POST["studentid"],
+								'departmentid' =>$_POST["departmentid"],
 								'userole' =>'Parent');
 				$answer = ManageUserMdl::AddManagerialUserMdl($table,$data);
 				if ($answer == 'ok') {

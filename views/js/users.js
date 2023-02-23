@@ -39,3 +39,41 @@
 		}
 		
       })
+
+
+
+ 
+
+$(document).ready(function(){
+  
+    $('#receipent').on('change', function() {
+
+      if ( this.value == 'All Staff')
+      {
+        $("#staff").show();
+        $("#student").hide();
+        $("#parent").hide();
+
+      }
+       else if ( this.value == 'Students')
+      {
+        $("#staff").hide();
+        $("#student").show();
+        $("#parent").hide();
+      }
+      else if ( this.value == 'Parents')
+      {
+        $("#staff").hide();
+         $("#student").hide();
+        $("#parent").show();
+      }
+      else
+      {
+        $("#staff").hide();
+        $("#student").hide();
+        $("#parent").hide();
+      }
+
+    
+    });
+});

@@ -44,7 +44,7 @@
 
  <?php 
  if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == "ok") {
-   echo '<main id="main" class="main">';
+   echo '<main id="main" class="main" style="background-color: yellow;">';
       include "views/modules/navigation/navbar.php";
       include "views/modules/navigation/sidemenu.php";
 
@@ -53,9 +53,12 @@
            if($_GET["route"] == "home"|| 
               $_GET["route"] == "logout"||
               $_GET["route"] == "semister"||
-               $_GET["route"] == "notifications"||
+              $_GET["route"] == "notifications"||
               $_GET["route"] == "studentresults"||
               $_GET["route"] == "viewschoolfees"||
+              $_GET["route"] == "alldepartments"||
+              $_GET["route"] == "allparents"||
+              $_GET["route"] == "allstudents"||
               $_GET["route"] == "viewstudentresults"||
               $_GET["route"] == "myprofile"||
               $_GET["route"] == "manageusers"){
@@ -75,6 +78,7 @@
               $_GET["route"] == "viewstudntresults"|| 
               $_GET["route"] == "sendnotification"|| 
               $_GET["route"] == "viewfeesinfo"|| 
+              $_GET["route"] == "viewmassage"||  
               $_GET["route"] == "logout"){
             include "views/modules/".$_GET["route"].".php";
            } else{
@@ -90,6 +94,8 @@
         if (isset($_GET["route"])) {
            if($_GET["route"] == "home"|| 
               $_GET["route"] == "studentviewrslt"||
+              $_GET["route"] == "sendnotification"||
+              $_GET["route"] == "viewmassage"||  
               $_GET["route"] == "logout"){
             include "views/modules/".$_GET["route"].".php";
            } else{
@@ -106,6 +112,8 @@
         if (isset($_GET["route"])) {
            if($_GET["route"] == "home"|| 
               $_GET["route"] == "viewschoolfees"||
+              $_GET["route"] == "sendnotification"|| 
+              $_GET["route"] == "viewmassage"||  
               $_GET["route"] == "logout"){
             include "views/modules/".$_GET["route"].".php";
            } else{
@@ -122,8 +130,12 @@
            if($_GET["route"] == "home"|| 
               $_GET["route"] == "studentresults"||
               $_GET["route"] == "viewstudentresults"||
+              $_GET["route"] == "sendnotification"|| 
+              $_GET["route"] == "sendmessage"|| 
               $_GET["route"] == "semister"||
               $_GET["route"] == "notifications"||
+              $_GET["route"] == "adminviewmassage"||
+              $_GET["route"] == "viewmassage"||  
               $_GET["route"] == "logout"){
             include "views/modules/".$_GET["route"].".php";
            } else{

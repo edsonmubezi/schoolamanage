@@ -1,11 +1,11 @@
 
 
     <div class="pagetitle">
-      <h1>Send Comments</h1>
+      <h1>Send Notification</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="home">Home</a></li>
-          <li class="breadcrumb-item">Send Comments</li>
+          <li class="breadcrumb-item">Send Notification</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -23,11 +23,7 @@
                 <div class="col-md-8">
                    <h5 class="card-title">Send Comment</h5>
                 </div>
-                <div class="col-md-4">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
-                 View Convo
-              </button>
-                </div>
+                
                 <?php
                 $itemt = $_SESSION["convoviewid"];
                 $valuet = $_SESSION["id"];
@@ -63,6 +59,18 @@
                
                 
                 <form method="POST" >
+
+                  <div class="row mb-3">
+                        <label for="inputText" class="col-sm-3 col-form-label">Select Recipient</label>
+                        <div class="col-sm-9">
+                           <select class="form-select" aria-label="Default select example" name="recipient">
+                            <option selected>Select Recipient</option>
+                            <option value="All Staff">All Staff</option>
+                            <option value="Students">Students</option>
+                            <option value="Parents">Parents</option>
+                          </select>
+                        </div>
+                      </div>
                 	<br>
                 	<div class="mb-3">
 					  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="sendcommenttwo"></textarea>
@@ -88,55 +96,4 @@
       </div>
     </section>
 
-
-
-     <div class="modal fade" id="basicModal" tabindex="-1">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Set Person To View Conversion</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <form method="POST">
-
-                       <div class="row mb-3">
-                        <label for="inputText" class="col-sm-4 col-form-label">Select Student</label>
-                        <div class="col-sm-5">
-                          <select class="form-select" id="convoview" aria-label="Default select example" name="convoview" required="">
-                            <option value="">Select Student</option>
-                            <?php 
-                             $item = null;
-                             $value = null;
-                             $clients = ManageUserCtrl::AllManagerUsersCtrl($item,$value); 
-                            foreach ($clients as $key => $value) {
-
-                              if ($value['userole'] == 'Parent') {
-                                echo '<option value="'.$value["id"].'">'.$value["fullname"].'</option>';
-                              }
-                              
-                             }
-
-                            ?>
-                          </select>
-                        </div>
-                      </div>
-
-     
-
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                       <?php
-            $useradd = new ManageUserCtrl();
-            $useradd ->UpdateViewConvoCtrl();
-            ?>  
-
-                     </form>
-                  </div>
-                </div>
-              </div>
- 
 

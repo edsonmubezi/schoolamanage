@@ -32,7 +32,9 @@
                     <th scope="col">Fullname</th>
                     <th scope="col">GPA</th>
                     <th scope="col">Grade</th>
-              		<th scope="col">Status</th>
+                     <th scope="col">Academic Year</th>
+                    <th scope="col">Semister</th>
+              		  <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -43,16 +45,25 @@
               $users = StudentResultsCtrl::ShowStudentResultsCtrl($item,$value); 
               foreach ($users as $key => $value) { 
 
-                		$itemt = 'id';
-              			$valuet = $value["studentid"];
-                        $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet); 
+                	$itemt = 'id';
+              		$valuet = $value["studentid"];
+                  $users = ManageUserCtrl::AllManagerUsersCtrl($itemt,$valuet); 
+
+                  $itemy = "id";
+                  $valuey = $value["semisterid"];
+                  $semister = ManageSemister::ShowSemisterCtrl($itemy,$valuey);
+
+                  $gpaclass = BasicMethodsCtrl::GetClassCtrl($value["avaerage"]);
 
                        echo
                        '<tr>
                        <td>
                        '.($key+1).'</td>
                       <td>'.$users["fullname"].'</td>
-                      <td>'.$value["avaerage"].'</td>';
+                      <td>'.$value["avaerage"].'</td>
+                      <td>'.$gpaclass.'</td>
+                      <td>'.$semister["acyear"].'</td>
+                      <td>'.$semister["semistername"].'</td>';
 
                       // if ($value["avaerage"] >= 75 ) {
                       // $grade = 'A';
@@ -68,7 +79,7 @@
 
                       
 
-                      $gpaclass = BasicMethodsCtrl::GetClassCtrl($value["avaerage"]);
+                      
 
                       if ($value["avaerage"] >= 2.0 ) {
                        $status = '<span class="badge bg-success">PASS</span>';
@@ -76,7 +87,7 @@
                       $status = '<span class="badge bg-danger">FAIL</span>';
                       }
 
-                       echo'<td>'.$gpaclass.'</td>';
+                       // echo'<td>'.$gpaclass.'</td>';
                        echo'<td>'.$status.'</td>';
                        echo'</tr>';
                      

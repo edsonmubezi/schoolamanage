@@ -136,8 +136,16 @@ class StudentResultsCtrl
            $item = null;
            $value = $semister['id'];
            $sumof = ManageUserCtrl::SumOFCreditCtrl($item,$value);
-         
-            for ($i=0; $i < count($_POST["subjectid"]); $i++) { 
+
+           
+
+           $item = $_POST["slctstudentid"];
+           $value = $semister['id'];
+           $findstudent = StudentResultsCtrl::FindDuplicateCtrl($item,$value);
+
+          
+           if ($findstudent == false) {
+               for ($i=0; $i < count($_POST["subjectid"]); $i++) { 
 
         
 
@@ -173,18 +181,19 @@ class StudentResultsCtrl
             $data = array('studentid' =>$_POST["slctstudentid"],
                               'numberofsubjects' =>$numberofsubjects,
                               'avaerage' =>$gpaamount,
+                              'semisterid' =>$semister['id'],
                               'totalmarks' =>$totalone);
             $answer = StudentResultsMdl::AddSummaryResultsMdl($table,$data);
 
            
                 if ($answer == 'ok') {
 
-                $table = "useraccounts";
-                $item1 = "resultstatus";
-                $value1 = 1;
-                $value2 = $_POST["slctstudentid"];
-                $item2 = "id";        
-                $answer = CommonMethodsmdl::mdlUpdatedetailstwo($table, $item1, $value1, $item2, $value2);
+                // $table = "useraccounts";
+                // $item1 = "resultstatus";
+                // $value1 = 1;
+                // $value2 = $_POST["slctstudentid"];
+                // $item2 = "id";        
+                // $answer = CommonMethodsmdl::mdlUpdatedetailstwo($table, $item1, $value1, $item2, $value2);
                         echo '<script>
                         Swal.fire({
                             icon: "success",
@@ -199,6 +208,26 @@ class StudentResultsCtrl
                         </script>';
             
             }
+           } 
+           else{
+               
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: " Student has results already!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "studentresults";
+                            }
+                        });
+                        </script>';
+            
+           }
+         
+           
         
         }
     }
@@ -208,6 +237,13 @@ class StudentResultsCtrl
         $answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
         return $answer;
     }
+
+     static public function FindDuplicateCtrl($item, $value){
+        $table = "resultssummary";
+        $answer = ManageUserMdl::FindDuplicateMdl($table, $item, $value);
+        return $answer;
+    }
+
 
 
 }
@@ -255,18 +291,30 @@ class ManageSchoolFeesInfoCtrl
         $answer = ManageUserMdl::ShowStudentResultsInfoMdl($table, $item, $value);
         return $answer;
     }
-    // static public function ShowStudentResultsInfoCtrl($item, $value){
-    //     $table = "comments";
-    //     $answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
-    //     return $answer;
-    // }
-
+    static public function ShowNotificationCtrl($item, $value){
+        $table = "comments";
+        $answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
+        return $answer;
+    }
+ static public function ShowNotificationTwoCtrl($item, $value){
+        $table = "comments";
+        $answer = ManageUserMdl::ShowNotificationTwoMdl($table, $item, $value);
+        return $answer;
+    }
 
      static public function ShowStudentResultsInfoTwoCtrl($item, $value){
         $table = "comments";
         $answer = ManageUserMdl::ShowStudentResultsInfoTwoMdl($table, $item, $value);
         return $answer;
     }
+
+
+    //  static public function ShowConvoCtrl($item, $value){
+    //     $table = "convoinfo";
+    //     $answer = ManageUserMdl::ShowStudentResultsInfoTwoMdl($table, $item, $value);
+    //     return $answer;
+    // }
+    
 
 }
 
@@ -304,13 +352,126 @@ class CommentsSectionCtrl
         }
     }
 
+    static public function SendMessageCtrlTwo()
+    {
+    if (isset($_POST["recipientidtwo"])) {
+            
+
+                $table = "comments";
+                $data = array('content' =>$_POST["message"],
+                              'receiverid' =>$_POST['recipientidtwo'],
+                              'senderid' =>$_SESSION['id']);
+                $answer = CommentsSectionMdl::SenCommentsSectionMdl($table,$data);
+                if ($answer == 'ok') {
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Succesfully Sent!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "adminviewmassage";
+                            }
+                        });
+                        </script>';
+                }
+        
+        }
+    }
+
+
+
+
+
+
+
+    static public function SendMessageCtrl()
+    {
+    if (isset($_POST["message"])) {
+
+            
+            
+            if ($_POST["recipientid"] == 'All Staff') {
+               $receiver = $_POST["staffid"];
+            }elseif ($_POST["recipientid"] == 'Students') {
+               $receiver = $_POST["student"];
+            }
+            elseif ($_POST["recipientid"] == 'Parents') {
+               $receiver = $_POST["parentid"];
+            }
+
+            $item = $receiver;
+            $value = $_SESSION['id'];
+            $getconvo =  CommentsSectionCtrl::ShowConvoCtrl($item,$value);
+            if ($getconvo == false) {
+            $table = "convoinfo";
+            $data = array('userid' =>$receiver,
+                          'userid1' =>$_SESSION['id']);
+            $answer = CommentsSectionMdl::ConvoCreateMdl($table,$data);
+            } 
+
+
+            $item = $receiver;
+            $value = $_SESSION['id'];
+            $getconvoid =  CommentsSectionCtrl::ShowConvoCtrl($item,$value);
+               
+            
+           if ( $receiver != null ) {
+              $table = "comments";
+                $data = array('content' =>$_POST["message"],
+                              'receiverid' =>$receiver,
+                              'convoid' =>$getconvoid['id'],
+                              'senderid' =>$_SESSION['id']);
+                $answer = CommentsSectionMdl::SenCommentsSectionMdl($table,$data);
+                if ($answer == 'ok') {
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Succesfully Sent!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "sendmessage";
+                            }
+                        });
+                        </script>';
+                }
+           } else {
+                echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Please select Recipient",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "sendmessage";
+                            }
+                        });
+                        </script>';
+           }
+           
+
+                
+        
+        }
+    }
+
     static public function ShowCommentsSectionCtrl($item, $value){
         $table = "comments";
         $answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
         return $answer;
     }
 
-    
+    static public function ShowConvoCtrl($item, $value){
+        $table = "convoinfo";
+        $answer = ManageUserMdl::ShowConvoMdl($table, $item, $value);
+        return $answer;
+    }
 
       static public function SenCommentsSectionTwoCtrl()
     {
@@ -340,7 +501,47 @@ class CommentsSectionCtrl
         
         }
     }
+
+         static public function SendNotificationCtrl()
+    {
+    if (isset($_POST["recipient"])) {
+            
+
+                $table = "comments";
+                $data = array('content' =>$_POST["sendcommenttwo"],
+                              'senderid' =>$_SESSION['id'],
+                              'type' =>'notification',
+                              'receiverid' =>$_POST["recipient"]);
+                $answer = CommentsSectionMdl::SendNotificationMdl($table,$data);
+                if ($answer == 'ok') {
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Succesfully Sent!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "notifications";
+                            }
+                        });
+                        </script>';
+                }
+        
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
 
 
 class ManageSemister
@@ -446,8 +647,92 @@ class ManageSemister
         }
     }
 
+
+    
+
+
+ static public function SetPersonToViewConvoCtrl()
+    {
+    if (isset($_POST["viewsenderid"])) {
+            
+
+             
+                $table = "useraccounts";
+                $item1 = "conviewid";
+                $value1 = $_POST['viewsenderid'];
+                $value2 = $_SESSION['id'];
+                $item2 = "id";        
+                $answer = CommonMethodsmdl::mdlUpdatedetailstwo($table, $item1, $value1, $item2, $value2);
+
+
+                  if ($answer == 'ok') {
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Succesfully Set!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "adminviewmassage";
+                            }
+                        });
+                        </script>';
+                }
+        
+        }
+    }
+
+
+
+
 }
 
  
 
+
+
+
+
+
+class DepartmetnCtrl
+{
+    
+     static public function AddDepartmetnCtrl()
+    {
+    if (isset($_POST["department"])) {
+            
+
+                $table = "departments";
+                $data = array('department' =>$_POST["department"]);
+                $answer = DepartmetnMdl::AddDepartmetnMdl($table,$data);
+                if ($answer == 'ok') {
+
+                        echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Succesfully Added!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result){
+                            if(result.value){
+                                window.location = "alldepartments";
+                            }
+                        });
+                        </script>';
+                }
+        
+        }
+    }
+
+
+       static public function ShowDepartmetnCtrl($item, $value){
+        $table = "departments";
+        $answer = ManageUserMdl::AllManagerUsersMdl($table, $item, $value);
+        return $answer;
+    }
+
+
+}
 
