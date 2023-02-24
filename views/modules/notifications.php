@@ -24,37 +24,7 @@
                    <h5 class="card-title">Send Comment</h5>
                 </div>
                 
-                <?php
-                $itemt = $_SESSION["convoviewid"];
-                $valuet = $_SESSION["id"];
-                $result = ManageSchoolFeesInfoCtrl::ShowStudentResultsInfoTwoCtrl($itemt,$valuet);
-
-                 ?>
-
-                 <?php foreach ($result as $key => $value): 
-
-
-                 	?>
-
-
-                 		
-                		
-                	<?php if ($value['senderid'] == $_SESSION["id"] ): ?>
-                 		<div class="row">
-                		<div class="col-md-4">ME:</div>
-                		<div class="col-md-8"><?php echo $value['content']; ?></div>
-                		</div>
-                 	<?php else: ?>
-                 		<div class="row">
-                		<div class="col-md-8"> <?php echo $value['content']; ?></div>
-                		<div class="col-md-4">ADMIN</div>
-                		</div>
-                 	<?php endif ?>
-                 
-                 	
-                 
-              
-                 <?php endforeach ?>
+               
 
                
                 
