@@ -481,6 +481,7 @@ class CommentsSectionCtrl
                 $table = "comments";
                 $data = array('content' =>$_POST["sendcommenttwo"],
                               'senderid' =>1,
+                              'convoid' =>0,
                               'receiverid' =>$_SESSION['convoviewid']);
                 $answer = CommentsSectionMdl::SenCommentsSectionMdl($table,$data);
                 if ($answer == 'ok') {
