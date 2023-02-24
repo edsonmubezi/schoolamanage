@@ -50,7 +50,7 @@ static public function ShowFeesSchoolInfoMdl($table, $item, $value){
 
 	static public function ShowStudentResultsInfoTwoMdl($table, $item, $value){
 	
-	$stmt = Connection::connect()->prepare("SELECT * FROM $table WHERE senderid = $value OR receiverid = ");
+	$stmt = Connection::connect()->prepare("SELECT * FROM $table WHERE senderid = $value OR receiverid = $item ");
 		$stmt -> execute();
 		return $stmt -> fetchAll();	
 		$stmt -> close();
